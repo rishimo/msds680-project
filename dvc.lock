@@ -1,0 +1,27 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python scripts/preprocess.py
+    deps:
+    - path: data/winemag-data-130k-v2.csv
+      hash: md5
+      md5: 9b7c2ad48ec2fe6a531cfe88a235f947
+      size: 52908706
+    - path: scripts/preprocess.py
+      hash: md5
+      md5: e5ffa86e58ff16815e28518cd50d01b6
+      size: 3235
+    params:
+      params.yaml:
+        preprocessing.raw_data_path: data/winemag-data-130k-v2.csv
+        preprocessing.test_data_path: data/processed/test_wine_reviews.csv
+        preprocessing.train_data_path: data/processed/train_wine_reviews.csv
+    outs:
+    - path: data/processed/test_wine_reviews.csv
+      hash: md5
+      md5: f16cff138219fc5c9192bef703aad262
+      size: 4533170
+    - path: data/processed/train_wine_reviews.csv
+      hash: md5
+      md5: 89971d188d40f421757998c6767fb03b
+      size: 18156062

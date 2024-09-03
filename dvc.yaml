@@ -1,0 +1,13 @@
+stages:
+  preprocess:
+    cmd: python scripts/preprocess.py
+    params:
+      - preprocessing.raw_data_path
+      - preprocessing.train_data_path
+      - preprocessing.test_data_path
+    deps:
+      - data/winemag-data-130k-v2.csv
+      - scripts/preprocess.py
+    outs:
+      - data/processed/train_wine_reviews.csv
+      - data/processed/test_wine_reviews.csv

@@ -1,0 +1,4 @@
+preprocessing:
+  raw_data_path: "data/winemag-data-130k-v2.csv"
+  train_data_path: "data/processed/train_wine_reviews.csv"
+  test_data_path: "data/processed/test_wine_reviews.csv"
