@@ -1,0 +1,5 @@
+outs:
+- md5: 5b9f1a7c04afe1e93aa2dae628c146f3
+  size: 49784334
+  hash: md5
+  path: winemag-data_first150k.csv
