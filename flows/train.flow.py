@@ -8,7 +8,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 import mlflow
-from metaflow import conda_base, FlowSpec, step, Parameter
+from metaflow import conda_base, kubernetes, FlowSpec, step, Parameter
 from utils import *
 
 
@@ -16,9 +16,10 @@ from utils import *
 #     packages={
 #         "scikit-learn": "1.5.1",
 #         "pandas": "2.1.4",
-#         "spacy": "3.7.6",
+#         "spacy": "3.4.0",
 #         "mlflow": "2.15.1",
-#     }
+#     },
+#     python="3.10",
 # )
 class TrainModelFlow(FlowSpec):
     test_size = Parameter(
@@ -73,6 +74,7 @@ class TrainModelFlow(FlowSpec):
         )
         self.next(self.feature_transformation)
 
+    @kubernetes()
     @step
     def feature_transformation(self):
         """
@@ -114,6 +116,7 @@ class TrainModelFlow(FlowSpec):
 
         self.next(self.train_model)
 
+    @kubernetes()
     @step
     def train_model(self):
         """

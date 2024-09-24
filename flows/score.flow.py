@@ -1,18 +1,18 @@
-from metaflow import FlowSpec, step, Parameter, conda_base
+from metaflow import FlowSpec, step, Parameter, conda_base, kubernetes
 import mlflow
 import pandas as pd
 import spacy
 from utils import *
 
 
-# Conda environment with necessary packages
 # @conda_base(
 #     packages={
 #         "scikit-learn": "1.5.1",
 #         "pandas": "2.1.4",
-#         "spacy": "3.7.6",
+#         "spacy": "3.4.0",
 #         "mlflow": "2.15.1",
-#     }
+#     },
+#     python="3.10",
 # )
 class ScoringFlow(FlowSpec):
     model_name = Parameter("model_name", default="best_model")
@@ -44,6 +44,7 @@ class ScoringFlow(FlowSpec):
 
         self.next(self.load_model)
 
+    @kubernetes()
     @step
     def load_model(self):
         """
@@ -60,6 +61,7 @@ class ScoringFlow(FlowSpec):
 
         self.next(self.predict)
 
+    @kubernetes()
     @step
     def predict(self):
         """
