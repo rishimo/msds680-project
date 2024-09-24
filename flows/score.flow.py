@@ -52,8 +52,8 @@ class ScoringFlow(FlowSpec):
         mlflow.set_tracking_uri("https://mlflow-serv-617145385837.us-west2.run.app")
 
         # Load the preprocessor and the model
-        preprocessor_uri = f"models:/{self.model_name}_preprocessor/Production"
-        model_uri = f"models:/{self.model_name}/Production"
+        preprocessor_uri = f"models:/{self.model_name}_preprocessor/latest"
+        model_uri = f"models:/{self.model_name}/latest"
 
         self.preprocessor = mlflow.sklearn.load_model(preprocessor_uri)
         self.model = mlflow.sklearn.load_model(model_uri)

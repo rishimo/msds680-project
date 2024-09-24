@@ -119,6 +119,8 @@ class TrainModelFlow(FlowSpec):
         """
         Train a Linear Regression model and calculate the MSE on the test set.
         """
+        mlflow.set_tracking_uri("https://mlflow-serv-617145385837.us-west2.run.app")
+        mlflow.set_experiment("Wine_Reviews_Experiment")
         with mlflow.start_run():
             # Train the Linear Regression model using transformed features
             self.model = LinearRegression()
@@ -139,26 +141,19 @@ class TrainModelFlow(FlowSpec):
                 self.preprocessor, self.model_name + "_preprocessor"
             )
 
-        self.next(self.register_model)
+            # register the model
+            mlflow.register_model(
+                f"runs:/{mlflow.active_run().info.run_id}/{self.model_name}",
+                self.model_name,
+            )
+            mlflow.register_model(
+                f"runs:/{mlflow.active_run().info.run_id}/{self.model_name}_preprocessor",
+                self.model_name + "_preprocessor",
+            )
 
-    @step
-    def register_model(self):
-        """
-        Register the trained model and preprocessor in MLFlow.
-        """
-        mlflow.set_tracking_uri(
-            "https://mlflow-serv-617145385837.us-west2.run.app"
-        )  # Local MLFlow tracking server
-        mlflow.set_experiment("Wine_Reviews_Experiment")
+            mlflow.end_run()
 
-        mlflow.register_model(
-            f"runs:/{mlflow.active_run().info.run_id}/{self.model_name}",
-            "wine_reviews_model",
-        )
-
-        mlflow.end_run()
-
-        print(f"Model registered in MLFlow as {self.model_name}")
+            print(f"Model registered in MLFlow as {self.model_name}")
 
         self.next(self.end)
 
